@@ -1,6 +1,9 @@
 # mobilechallenge
 
 A new Flutter project.
+## Clone project
+
+> **Github** git clone -b with_redux https://github.com/locpt/mobilechallenge.git
 
 ## Get the Flutter SDK (https://flutter.dev/docs/get-started/install/macos)
 1. Download the following installation bundle to get the latest stable release of the Flutter SDK: (https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_v1.2.1-stable.zip)
