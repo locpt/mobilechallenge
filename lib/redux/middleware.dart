@@ -21,8 +21,7 @@ Future<AppState> fetchItems() async {
   return AppState(items: items);
 }
 
-void appStateMiddleware(
-    Store<AppState> store, action, NextDispatcher next) async {
+void appStateMiddleware(Store<AppState> store, action, NextDispatcher next) async {
   next(action);
 
   if (action is GetItemsAction) {

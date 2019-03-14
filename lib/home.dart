@@ -8,8 +8,8 @@ import 'package:redux/redux.dart';
 
 class HomePage extends StatelessWidget {
   final Store<AppState> store;
+  static final BlockView blockView = BlockView();
   final HorizontalListView horizontalListView = HorizontalListView();
-  final BlockView blockView = BlockView();
 
   HomePage(this.store);
 
