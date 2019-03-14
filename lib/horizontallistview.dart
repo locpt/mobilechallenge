@@ -5,30 +5,25 @@ import 'mainviewmodel.dart';
 typedef OnItemClickListener = void Function(Item item);
 
 // ignore: must_be_immutable
-class HorizontalListView extends StatefulWidget {
-  final MainViewModel model;
+class HorizontalListView extends StatelessWidget {
+  MainViewModel model;
   OnItemClickListener callback;
 
-  HorizontalListView(this.model);
-
-  @override
-  State<StatefulWidget> createState() {
-    return HorizontalListViewState();
+  void setModel(MainViewModel model) {
+    this.model = model;
   }
 
   void setOnItemClickListener(OnItemClickListener callback) {
     this.callback = callback;
   }
-}
 
-class HorizontalListViewState extends State<HorizontalListView> {
   List<GestureDetector> _buildListFromItems() {
-    return widget.model.items.map((item) {
+    return this.model.items.map((item) {
       final gestureDetector = GestureDetector(
         child: buildColumn(item),
         onTap: () {
-          if (widget.callback != null) {
-            widget.callback(item);
+          if (this.callback != null) {
+            this.callback(item);
           }
         },
       );
@@ -38,6 +33,7 @@ class HorizontalListViewState extends State<HorizontalListView> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       height: 200.0,

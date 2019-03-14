@@ -4,14 +4,16 @@ import 'mainviewmodel.dart';
 
 // ignore: must_be_immutable
 class BlockView extends StatefulWidget {
-  final MainViewModel model;
-  final BlockViewState blockViewState = BlockViewState();
-
-  BlockView(this.model);
+  MainViewModel model;
+  BlockViewState blockViewState = BlockViewState();
 
   @override
   State<StatefulWidget> createState() {
     return blockViewState;
+  }
+
+  void setModel(MainViewModel model) {
+    this.model = model;
   }
 
   void invalidate(Item item) {

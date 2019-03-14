@@ -8,31 +8,34 @@ import 'package:redux/redux.dart';
 
 class HomePage extends StatelessWidget {
   final Store<AppState> store;
+  final HorizontalListView horizontalListView = HorizontalListView();
+  final BlockView blockView = BlockView();
 
   HomePage(this.store);
 
   @override
   Widget build(BuildContext context) {
-    HorizontalListView horizontalListView;
-    BlockView blockView;
-
     return StoreConnector<AppState, MainViewModel>(
         converter: (Store<AppState> store) => MainViewModel.create(store),
         builder: (BuildContext context, MainViewModel viewModel) {
           if (viewModel.items.isEmpty) {
             return Center(child: CircularProgressIndicator());
           } else {
-            blockView = BlockView(viewModel);
-            horizontalListView = HorizontalListView(viewModel);
+            horizontalListView.setModel(viewModel);
+            blockView.setModel(viewModel);
             horizontalListView.setOnItemClickListener((item) {
-              if (blockView != null && item != null) {
-                blockView.invalidate(item);
-              }
+              updateBlockView(blockView, item);
             });
             return Column(
               children: <Widget>[horizontalListView, blockView],
             );
           }
         });
+  }
+
+  void updateBlockView(BlockView blockView, Item item) {
+    if (blockView != null && item != null) {
+      blockView.invalidate(item);
+    }
   }
 }
