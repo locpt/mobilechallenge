@@ -1,49 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:mobilechallenge/model/Item.dart';
+import 'package:mobilechallenge/model/model.dart';
+import 'mainviewmodel.dart';
 
 typedef OnItemClickListener = void Function(Item item);
 
 // ignore: must_be_immutable
 class HorizontalListView extends StatefulWidget {
-  List<Item> items;
+  final MainViewModel model;
   OnItemClickListener callback;
-  HorizontalListViewState horizontalListViewState = HorizontalListViewState();
+
+  HorizontalListView(this.model);
 
   @override
   State<StatefulWidget> createState() {
-    return horizontalListViewState;
-  }
-
-  void setItems(List<Item> items) {
-    this.items = items;
+    return HorizontalListViewState();
   }
 
   void setOnItemClickListener(OnItemClickListener callback) {
     this.callback = callback;
   }
-
-  void updateItem(Item item) {
-    horizontalListViewState.updateItem(item);
-  }
 }
 
 class HorizontalListViewState extends State<HorizontalListView> {
-  void updateListItem() {
-    setState(() {});
-  }
-
-  void updateItem(Item item) {
-    final Item temp =
-        widget.items.firstWhere((data) => data.id == item.id, orElse: null);
-    if (temp != null) {
-      setState(() {
-        temp.score = item.score;
-      });
-    }
-  }
-
   List<GestureDetector> _buildListFromItems() {
-    return widget.items.map((item) {
+    return widget.model.items.map((item) {
       final gestureDetector = GestureDetector(
         child: buildColumn(item),
         onTap: () {
@@ -58,10 +38,14 @@ class HorizontalListViewState extends State<HorizontalListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      children: _buildListFromItems(),
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0),
+      height: 200.0,
+      child: ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        children: _buildListFromItems(),
+      ),
     );
   }
 }

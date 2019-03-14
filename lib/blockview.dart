@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mobilechallenge/model/Item.dart';
-
-typedef OnUpdateItemListener = void Function(Item item);
+import 'package:mobilechallenge/model/model.dart';
+import 'mainviewmodel.dart';
 
 // ignore: must_be_immutable
 class BlockView extends StatefulWidget {
+  final MainViewModel model;
   final BlockViewState blockViewState = BlockViewState();
-  OnUpdateItemListener callback;
+
+  BlockView(this.model);
 
   @override
   State<StatefulWidget> createState() {
     return blockViewState;
-  }
-
-  void setOnUpdateItemListener(OnUpdateItemListener callback) {
-    this.callback = callback;
   }
 
   void invalidate(Item item) {
@@ -38,9 +35,7 @@ class BlockViewState extends State<BlockView> {
         setState(() {
           this.item.score++;
         });
-        if (widget.callback != null) {
-          widget.callback(item);
-        }
+        widget.model.onUpdateItem(this.item);
       },
       child: Container(
         alignment: Alignment.center,

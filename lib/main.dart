@@ -1,68 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:mobilechallenge/model/Item.dart';
-import 'HorizontalListView.dart';
-import 'BlockView.dart';
-import 'data.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mobilechallenge/redux/actions.dart';
+import 'package:mobilechallenge/redux/reducers.dart';
+import 'package:mobilechallenge/model/model.dart';
+import 'redux/middleware.dart';
+import 'home.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final title = 'Horizontal ListView';
-    final BlockView blockView = BlockView();
-    final HorizontalListView horizontalListView = HorizontalListView();
+    final Store<AppState> store = Store<AppState>(
+      appStateReducers,
+      initialState: AppState.initialState(),
+      middleware: [appStateMiddleware],
+    );
 
-    blockView.setOnUpdateItemListener((item) {
-      _updateHorizontalListView(horizontalListView, item);
-    });
-
-    horizontalListView.setOnItemClickListener((item) {
-      _updateBlockView(blockView, item);
-    });
-
-    return new MaterialApp(
-        title: title,
-        home: new Scaffold(
+    return StoreProvider<AppState>(
+      store: store,
+      child: MaterialApp(
+          title: "Horizontal ListView",
+          home: new Scaffold(
             appBar: new AppBar(
-              title: Text(title),
+              title: Text("Horizontal ListView"),
             ),
-            body: FutureBuilder(
-                future: fetchItems(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    print(snapshot.error);
-                  }
-                  if (snapshot.hasData) {
-                    horizontalListView.setItems(snapshot.data);
-                    return Column(
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.symmetric(vertical: 20.0),
-                            height: 200.0,
-                            child: horizontalListView),
-                        Container(
-                          alignment: Alignment.center,
-                          child: blockView,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                })));
-  }
-
-  void _updateBlockView(BlockView blockView, Item item) {
-    if (blockView != null) {
-      blockView.invalidate(item);
-    }
-  }
-
-  void _updateHorizontalListView(
-      HorizontalListView horizontalListView, Item item) {
-    if (horizontalListView != null) {
-      horizontalListView.updateItem(item);
-    }
+            body: StoreBuilder<AppState>(
+              onInit: (store) => store.dispatch(GetItemsAction()),
+              builder: (BuildContext context, Store<AppState> store) => HomePage(store),
+            ),
+          )),
+    );
   }
 }
