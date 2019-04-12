@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobilechallenge/model/Item.dart';
-import 'HorizontalListView.dart';
-import 'BlockView.dart';
+import 'package:mobilechallenge/widgets/listview_widget.dart';
+import 'package:mobilechallenge/widgets/card_widget.dart';
 import 'data.dart';
 
 void main() => runApp(new MyApp());

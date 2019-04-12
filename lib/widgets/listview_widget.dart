@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as listview_widget;
 import 'package:mobilechallenge/model/Item.dart';
 
 typedef OnItemClickListener = void Function(Item item);
 
 // ignore: must_be_immutable
-class HorizontalListView extends StatefulWidget {
+class HorizontalListView extends listview_widget.StatefulWidget {
   List<Item> items;
   OnItemClickListener callback;
   HorizontalListViewState horizontalListViewState = HorizontalListViewState();
 
   @override
-  State<StatefulWidget> createState() {
+  listview_widget.State<listview_widget.StatefulWidget> createState() {
     return horizontalListViewState;
   }
 
@@ -27,7 +27,7 @@ class HorizontalListView extends StatefulWidget {
   }
 }
 
-class HorizontalListViewState extends State<HorizontalListView> {
+class HorizontalListViewState extends listview_widget.State<HorizontalListView> {
   void updateListItem() {
     setState(() {});
   }
@@ -42,9 +42,9 @@ class HorizontalListViewState extends State<HorizontalListView> {
     }
   }
 
-  List<GestureDetector> _buildListFromItems() {
+  List<listview_widget.GestureDetector> _buildListFromItems() {
     return widget.items.map((item) {
-      final gestureDetector = GestureDetector(
+      final gestureDetector = listview_widget.GestureDetector(
         child: buildColumn(item),
         onTap: () {
           if (widget.callback != null) {
@@ -57,24 +57,24 @@ class HorizontalListViewState extends State<HorizontalListView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ListView(
+  listview_widget.Widget build(listview_widget.BuildContext context) {
+    return listview_widget.ListView(
       shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
+      scrollDirection: listview_widget.Axis.horizontal,
       children: _buildListFromItems(),
     );
   }
 }
 
-SizedBox buildColumn(Item item) {
-  return SizedBox(
+listview_widget.SizedBox buildColumn(Item item) {
+  return listview_widget.SizedBox(
     width: 200.0,
-    child: Container(
-        alignment: Alignment.center,
-        color: Color(item.color << 0).withOpacity(0.8),
-        child: Text(
+    child: listview_widget.Container(
+        alignment: listview_widget.Alignment.center,
+        color: listview_widget.Color(item.color << 0).withOpacity(0.8),
+        child: listview_widget.Text(
           item.score.toString(),
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
+          style: listview_widget.TextStyle(fontWeight: listview_widget.FontWeight.bold, fontSize: 32.0),
         )),
   );
 }
