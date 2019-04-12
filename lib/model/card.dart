@@ -1,16 +1,15 @@
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 
-class Item {
+class CardItem {
   final int id;
   final int score;
   final Color color;
 
-  Item({@required this.id, @required this.score, @required this.color});
+  CardItem({@required this.id, @required this.score, @required this.color});
 
-  Item copyWith(Item item) {
-    return Item(
+  CardItem copyWith(CardItem item) {
+    return CardItem(
         id: item.id ?? this.id,
         score: item.score ?? this.id,
         color: item.color ?? this.color);
@@ -19,7 +18,7 @@ class Item {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Item &&
+          other is CardItem &&
               runtimeType == other.runtimeType &&
               id == other.id &&
               score == other.score &&

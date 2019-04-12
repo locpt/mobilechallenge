@@ -1,59 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:mobilechallenge/model/Item.dart';
+import 'package:mobilechallenge/blocs/base/bloc_provider.dart';
+import 'package:mobilechallenge/blocs/home_bloc.dart';
+import 'package:mobilechallenge/model/card.dart';
 
-typedef OnUpdateItemListener = void Function(Item item);
-
-// ignore: must_be_immutable
-class BlockView extends StatefulWidget {
-  final BlockViewState blockViewState = BlockViewState();
-  OnUpdateItemListener callback;
-
+class CardWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return blockViewState;
-  }
-
-  void setOnUpdateItemListener(OnUpdateItemListener callback) {
-    this.callback = callback;
-  }
-
-  void invalidate(Item item) {
-    blockViewState.invalidateBlockView(item);
-  }
+  State<StatefulWidget> createState() => _CardWidgetState();
 }
 
-class BlockViewState extends State<BlockView> {
-  Item item;
+class _CardWidgetState extends State<CardWidget> {
+  HomeBloc homeBloc;
 
-  void invalidateBlockView(Item item) {
-    setState(() {
-      this.item = item;
-    });
+  @override
+  void initState() {
+    super.initState();
+    homeBloc = BlocProvider.of<HomeBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          this.item.score++;
+    return StreamBuilder(
+        stream: homeBloc._outCardStream,
+        builder: (BuildContext context, AsyncSnapshot<CardItem> snapshot) {
+          return Container(
+            alignment: Alignment.center,
+            width: 200.0,
+            height: 200.0,
+            color: snapshot.data == null
+                ? Color.fromARGB(0, 0, 0, 0)
+                : snapshot.data.color,
+            child: Text(
+              snapshot.data == null ? "" : snapshot.data.score.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
+            ),
+          );
         });
-        if (widget.callback != null) {
-          widget.callback(item);
-        }
-      },
-      child: Container(
-        alignment: Alignment.center,
-        width: 200.0,
-        height: 200.0,
-        color: this.item == null
-            ? Color.fromARGB(0, 0, 0, 0)
-            : Color(this.item.color << 0).withOpacity(0.8),
-        child: Text(
-          this.item == null ? "" : this.item.score.toString(),
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
-        ),
-      ),
-    );
   }
 }

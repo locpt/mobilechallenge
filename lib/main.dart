@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobilechallenge/model/Item.dart';
+import 'package:mobilechallenge/model/card.dart';
 import 'package:mobilechallenge/widgets/listview_widget.dart';
 import 'package:mobilechallenge/widgets/card_widget.dart';
-import 'data.dart';
+import 'package:mobilechallenge/data/data.dart';
 
 void main() => runApp(new MyApp());
 
@@ -53,14 +53,14 @@ class MyApp extends StatelessWidget {
                 })));
   }
 
-  void _updateBlockView(BlockView blockView, Item item) {
+  void _updateBlockView(BlockView blockView, CardItem item) {
     if (blockView != null) {
       blockView.invalidate(item);
     }
   }
 
   void _updateHorizontalListView(
-      HorizontalListView horizontalListView, Item item) {
+      HorizontalListView horizontalListView, CardItem item) {
     if (horizontalListView != null) {
       horizontalListView.updateItem(item);
     }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' as listview_widget;
-import 'package:mobilechallenge/model/Item.dart';
+import 'package:mobilechallenge/model/card.dart';
 
-typedef OnItemClickListener = void Function(Item item);
+typedef OnItemClickListener = void Function(CardItem item);
 
 // ignore: must_be_immutable
 class HorizontalListView extends listview_widget.StatefulWidget {
-  List<Item> items;
+  List<CardItem> items;
   OnItemClickListener callback;
   HorizontalListViewState horizontalListViewState = HorizontalListViewState();
 
@@ -14,7 +14,7 @@ class HorizontalListView extends listview_widget.StatefulWidget {
     return horizontalListViewState;
   }
 
-  void setItems(List<Item> items) {
+  void setItems(List<CardItem> items) {
     this.items = items;
   }
 
@@ -22,7 +22,7 @@ class HorizontalListView extends listview_widget.StatefulWidget {
     this.callback = callback;
   }
 
-  void updateItem(Item item) {
+  void updateItem(CardItem item) {
     horizontalListViewState.updateItem(item);
   }
 }
@@ -32,8 +32,8 @@ class HorizontalListViewState extends listview_widget.State<HorizontalListView> 
     setState(() {});
   }
 
-  void updateItem(Item item) {
-    final Item temp =
+  void updateItem(CardItem item) {
+    final CardItem temp =
         widget.items.firstWhere((data) => data.id == item.id, orElse: null);
     if (temp != null) {
       setState(() {
@@ -66,7 +66,7 @@ class HorizontalListViewState extends listview_widget.State<HorizontalListView> 
   }
 }
 
-listview_widget.SizedBox buildColumn(Item item) {
+listview_widget.SizedBox buildColumn(CardItem item) {
   return listview_widget.SizedBox(
     width: 200.0,
     child: listview_widget.Container(
