@@ -27,23 +27,21 @@ class _CardItemWidget extends State<CardItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: homeBloc.cardItemStream,
-        builder: (BuildContext context, AsyncSnapshot<CardItem> snapshot) {
-          return GestureDetector(
-            onTap: () {},
-            child: SizedBox(
-              width: 200.0,
-              child: Container(
-                  alignment: Alignment.center,
-                  color: widget.card.color,
-                  child: Text(
-                    widget.card.score.toString(),
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 32.0),
-                  )),
-            ),
-          );
-        });
+    return GestureDetector(
+      onTap: () {},
+      child: SizedBox(
+        width: 200.0,
+        child: Container(
+            alignment: Alignment.center,
+            color: widget.card.color,
+            child: Text(
+              widget.card.score.toString(),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32.0,
+                  color: Colors.white),
+            )),
+      ),
+    );
   }
 }

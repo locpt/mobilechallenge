@@ -1,44 +1,35 @@
 import 'dart:async';
 import 'package:mobilechallenge/blocs/base/bloc_base.dart';
+import 'package:mobilechallenge/data/repository/card_repo.dart';
+import 'package:mobilechallenge/data/repository/card_repo_impl.dart';
 import 'package:mobilechallenge/model/card.dart';
 
 class HomeBloc extends BlocBase {
+  // List of all items
+  List<CardItem> _cards;
+  CardRepository _cardRepository = CardRepoImpl();
 
-  List<CardItem> cards;
-  CardItem cardItem;
+  /*
+  *   Stream to list of all possible items
+  * */
+  StreamController<List<CardItem>> _cardsController = StreamController();
+  Stream<List<CardItem>> get cardsStream => _cardsController.stream;
 
-  HomeBloc(){
+  HomeBloc() {
+    _getCards();
   }
-
-  /*
-  * Stream Controller the CardWidget
-  * */
-//  StreamController<CardItem> _cardWidgetController = StreamController();
-//  Sink<CardItem> get cardWidgetSink => _cardWidgetController.sink;
-//  Stream<CardItem> get cardWidgetStream => _cardWidgetController.stream;
-
-  /*
-  * Stream Controller the [CardItem] in ListView
-  * */
-  StreamController<CardItem> _cardItemController = StreamController();
-  Sink<CardItem> get cardItemSink => _cardItemController.sink;
-  Stream<CardItem> get cardItemStream => _cardItemController.stream;
-
-  /*
-  * Stream Controller the ListView
-  * */
-  StreamController<List<CardItem>> _listViewController = StreamController();
-  Sink<List<CardItem>> get listSink => _listViewController.sink;
-  Stream<List<CardItem>> get listStream => _listViewController.stream;
 
   @override
   void dispose() {
-//    _cardWidgetController.close();
-    _cardItemController.close();
-    _listViewController.close();
+    _cardsController.close();
   }
 
-  void handleCardClick(CardItem data) {
-
+  void _getCards() {
+    _cardRepository.getCards().then((cards) {
+      this._cards = cards;
+      _cardsController.sink.add(_cards);
+    });
   }
+
+  void handleCardClick(CardItem data) {}
 }

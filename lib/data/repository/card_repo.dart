@@ -1,5 +1,7 @@
-import 'package:mobilechallenge/data/repository/repository.dart';
+import 'dart:async';
 
-class CardRepository extends Repository{
+import 'package:mobilechallenge/model/card.dart';
 
+abstract class CardRepository {
+  Future<List<CardItem>> getCards();
 }
