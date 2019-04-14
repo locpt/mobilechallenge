@@ -33,7 +33,8 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               CardListView(
                 cards: snapshot.data,
-              )
+              ),
+              CardWidget()
             ],
           );
         }

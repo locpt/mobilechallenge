@@ -4,16 +4,16 @@ import 'package:mobilechallenge/model/card.dart';
 import 'package:mobilechallenge/pages/home/home_bloc.dart';
 
 class CardItemWidget extends StatefulWidget {
-  final CardItem card;
-
-  const CardItemWidget({Key key, this.card}) : super(key: key);
+  final CardItem cardItem;
+  final VoidCallback onPressed;
+  const CardItemWidget({Key key, this.cardItem, this.onPressed}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CardItemWidget();
 }
 
 class _CardItemWidget extends State<CardItemWidget> {
-  HomeBloc homeBloc;
+  HomeBloc _homeBloc;
 
   @override
   void initState() {
@@ -22,26 +22,33 @@ class _CardItemWidget extends State<CardItemWidget> {
   }
 
   _initBloc() {
-    homeBloc = BlocProvider.of<HomeBloc>(context);
+    _homeBloc = BlocProvider.of<HomeBloc>(context);
+    _homeBloc.cardItem(this.widget.cardItem);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: SizedBox(
-        width: 200.0,
-        child: Container(
-            alignment: Alignment.center,
-            color: widget.card.color,
-            child: Text(
-              widget.card.score.toString(),
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 32.0,
-                  color: Colors.white),
-            )),
-      ),
+    return StreamBuilder<CardItem>(
+      stream: _homeBloc.cardStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        final CardItem cardItem = snapshot.data;
+        return GestureDetector(
+          onTap: () => widget.onPressed,
+          child: SizedBox(
+            width: 200.0,
+            child: Container(
+                alignment: Alignment.center,
+                color: cardItem.color,
+                child: Text(
+                  cardItem.score.toString(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32.0,
+                      color: Colors.white),
+                )),
+          ),
+        );
+      },
     );
   }
 }
