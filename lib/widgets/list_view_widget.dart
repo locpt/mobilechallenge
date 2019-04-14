@@ -20,8 +20,7 @@ class CardListView extends StatelessWidget {
         itemCount: cards == null ? 0 : cards.length,
         itemBuilder: (context, index) {
           return CardItemWidget(
-            cardItem: cards[index],
-            onPressed: ,);
+            cardItem: cards[index]);
         },
       ),
     );

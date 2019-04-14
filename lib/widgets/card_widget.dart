@@ -21,9 +21,20 @@ class CardWidgetState extends State<CardWidget> {
     _initBloc();
   }
 
+  @override
+  void didUpdateWidget(CardWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _disposeBloc();
+    _initBloc();
+  }
+
   void _initBloc() {
     _homeBloc = BlocProvider.of<HomeBloc>(context);
     _homeBloc.cardItem(this.widget.cardItem);
+  }
+
+  void _disposeBloc() {
+    _homeBloc.dispose();
   }
 
   void setCardItem(CardItem card) {
@@ -64,6 +75,6 @@ class CardWidgetState extends State<CardWidget> {
   @override
   void dispose() {
     super.dispose();
-    _homeBloc.dispose();
+    _disposeBloc();
   }
 }

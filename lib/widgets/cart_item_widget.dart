@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mobilechallenge/blocs/base/bloc_provider.dart';
+import 'package:mobilechallenge/keys/AppKey.dart';
 import 'package:mobilechallenge/model/card.dart';
 import 'package:mobilechallenge/pages/home/home_bloc.dart';
 
 class CardItemWidget extends StatefulWidget {
   final CardItem cardItem;
   final VoidCallback onPressed;
-  const CardItemWidget({Key key, this.cardItem, this.onPressed}) : super(key: key);
+
+  const CardItemWidget({Key key, this.cardItem, this.onPressed})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CardItemWidget();
@@ -18,6 +21,17 @@ class _CardItemWidget extends State<CardItemWidget> {
   @override
   void initState() {
     super.initState();
+    _initBloc();
+  }
+
+  void _disposeBloc() {
+    _homeBloc.dispose();
+  }
+
+  @override
+  void didUpdateWidget(CardItemWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _disposeBloc();
     _initBloc();
   }
 
@@ -33,7 +47,8 @@ class _CardItemWidget extends State<CardItemWidget> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         final CardItem cardItem = snapshot.data;
         return GestureDetector(
-          onTap: () => widget.onPressed,
+          onTap: () =>
+              AppKey.cardContainerGlobalKey.currentState.cardItem = cardItem,
           child: SizedBox(
             width: 200.0,
             child: Container(

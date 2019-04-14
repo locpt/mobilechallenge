@@ -17,21 +17,13 @@ class CardItem {
 
   CardItem copyWith(int id, int score, Color color) {
     return CardItem(
-        id: id ?? this.id,
-        score: score ?? this.id,
-        color: color ?? this.color);
+        id: id ?? this.id, score: score ?? this.id, color: color ?? this.color);
   }
 
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) || this.id == other.id;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CardItem &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          score == other.score &&
-          color == other.color;
-
-  @override
-  int get hashCode => id.hashCode ^ score.hashCode ^ color.hashCode;
+  int get hashCode => id;
 }

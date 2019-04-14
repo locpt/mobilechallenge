@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobilechallenge/blocs/base/bloc_provider.dart';
+import 'package:mobilechallenge/keys/AppKey.dart';
 import 'package:mobilechallenge/model/card.dart';
 import 'package:mobilechallenge/pages/home/home_bloc.dart';
-import 'package:mobilechallenge/widgets/card_widget.dart';
+import 'package:mobilechallenge/widgets/card_container_widget.dart';
 import 'package:mobilechallenge/widgets/list_view_widget.dart';
 
 class HomePage extends StatefulWidget {
+  
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               CardListView(
                 cards: snapshot.data,
               ),
-              CardWidget()
+              CardContainer(key: AppKey.cardContainerGlobalKey,)
             ],
           );
         }
