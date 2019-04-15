@@ -14,21 +14,18 @@ class HomeBloc extends BlocBase {
   Stream to list of all possible items
   * */
   PublishSubject<List<CardItem>> _cardsSubject = PublishSubject();
-
   Stream<List<CardItem>> get getCards => _cardsSubject.stream;
 
   /*
   Stream to control single [CardItem] and [CardWidget]
   * */
   BehaviorSubject<CardItem> _increaseCardSubject = BehaviorSubject();
-
   Stream<CardItem> get getCard => _increaseCardSubject.stream;
 
   /*
   Stream to control event click on [CardWidget]
   * */
   BehaviorSubject<CardItem> _clickEventSubject = BehaviorSubject();
-
   Stream<CardItem> get getCardFromEvent => _clickEventSubject.stream;
 
   HomeBloc() {

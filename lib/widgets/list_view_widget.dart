@@ -20,6 +20,12 @@ class _CardListViewState extends State<CardListView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _homeBloc.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<CardItem>>(
         stream: _homeBloc.getCards,
