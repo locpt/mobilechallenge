@@ -25,7 +25,6 @@ class CardWidgetState extends State<CardWidget> {
     super.dispose();
     _disposeBloc();
   }
-//
 //  @override
 //  void didUpdateWidget(CardWidget oldWidget) {
 //    super.didUpdateWidget(oldWidget);
@@ -43,7 +42,6 @@ class CardWidgetState extends State<CardWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder<CardItem>(
       stream: _homeBloc.getCardFromEvent,
       builder: (context, snapshot) {
