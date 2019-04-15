@@ -5,24 +5,43 @@ import 'package:mobilechallenge/model/card.dart';
 import 'package:mobilechallenge/widgets/card_widget.dart';
 import 'package:mobilechallenge/widgets/cart_item_widget.dart';
 
-class CardListView extends StatelessWidget {
-  final List<CardItem> cards;
-  const CardListView({Key key, this.cards}) : super(key: key);
+class CardListView extends StatefulWidget {
+  @override
+  _CardListViewState createState() => _CardListViewState();
+}
+
+class _CardListViewState extends State<CardListView> {
+  HomeBloc _homeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _homeBloc = BlocProvider.of<HomeBloc>(context);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      height: 200.0,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: cards == null ? 0 : cards.length,
-        itemBuilder: (context, index) {
-          return CardItemWidget(
-            cardItem: cards[index]);
-        },
-      ),
-    );
+    return StreamBuilder<List<CardItem>>(
+        stream: _homeBloc.getCards,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 20.0),
+              height: 200.0,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return CardItemWidget(cardItem: snapshot.data[index]);
+                },
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }

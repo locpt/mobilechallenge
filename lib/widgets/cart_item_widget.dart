@@ -1,69 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mobilechallenge/blocs/base/bloc_provider.dart';
-import 'package:mobilechallenge/keys/AppKey.dart';
 import 'package:mobilechallenge/model/card.dart';
 import 'package:mobilechallenge/pages/home/home_bloc.dart';
 
-class CardItemWidget extends StatefulWidget {
+class CardItemWidget extends StatelessWidget {
   final CardItem cardItem;
-  final VoidCallback onPressed;
 
-  const CardItemWidget({Key key, this.cardItem, this.onPressed})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _CardItemWidget();
-}
-
-class _CardItemWidget extends State<CardItemWidget> {
-  HomeBloc _homeBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _initBloc();
-  }
-
-  void _disposeBloc() {
-    _homeBloc.dispose();
-  }
-
-  @override
-  void didUpdateWidget(CardItemWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _disposeBloc();
-    _initBloc();
-  }
-
-  _initBloc() {
-    _homeBloc = BlocProvider.of<HomeBloc>(context);
-    _homeBloc.cardItem(this.widget.cardItem);
-  }
+  const CardItemWidget({Key key, @required this.cardItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<CardItem>(
-      stream: _homeBloc.cardStream,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        final CardItem cardItem = snapshot.data;
-        return GestureDetector(
-          onTap: () =>
-              AppKey.cardContainerGlobalKey.currentState.cardItem = cardItem,
-          child: SizedBox(
-            width: 200.0,
-            child: Container(
-                alignment: Alignment.center,
-                color: cardItem.color,
-                child: Text(
-                  cardItem.score.toString(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32.0,
-                      color: Colors.white),
-                )),
-          ),
-        );
-      },
+    final HomeBloc _homeBloc = BlocProvider.of<HomeBloc>(context);
+    return GestureDetector(
+      onTap: () => _homeBloc.onItemClick(cardItem),
+      child: SizedBox(
+        width: 200.0,
+        child: Container(
+            alignment: Alignment.center,
+            color: cardItem.color,
+            child: Text(
+              cardItem.score.toString(),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32.0,
+                  color: Colors.white),
+            )),
+      ),
     );
   }
 }
